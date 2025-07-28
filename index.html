@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pink Love Confession</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -14,8 +15,11 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* Moving background */
@@ -70,10 +74,11 @@
 
     #wrapper {
       text-align: center;
-      max-width: 1000px;
       width: 100%;
+      max-width: 1000px;
       position: relative;
       padding: 20px;
+      margin: 0 auto;
     }
 
     .header {
@@ -82,7 +87,7 @@
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
       color: #fff;
       text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       background: linear-gradient(to right, #ffffff, #f8f9fa);
@@ -90,7 +95,6 @@
       -webkit-text-fill-color: transparent;
       font-weight: 700;
       letter-spacing: 1px;
-      position: relative;
       margin-bottom: 15px;
       animation: pulse 2s infinite;
     }
@@ -103,7 +107,7 @@
 
     .subtitle {
       color: #fff;
-      font-size: 1.4rem;
+      font-size: clamp(1rem, 2vw, 1.4rem);
       font-weight: 300;
       max-width: 600px;
       margin: 0 auto;
@@ -114,6 +118,7 @@
       position: relative;
       width: 100%;
       height: 600px;
+      max-height: 70vh;
       background: rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(8px);
       border-radius: 25px;
@@ -124,6 +129,7 @@
       justify-content: center;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, 0.4);
+      margin: 0 auto;
     }
 
     /* Floating hearts */
@@ -165,8 +171,8 @@
     }
 
     button {
-      padding: 18px 45px;
-      font-size: 1.4rem;
+      padding: 15px 30px;
+      font-size: clamp(1rem, 2vw, 1.4rem);
       border: none;
       border-radius: 50px;
       cursor: pointer;
@@ -184,22 +190,12 @@
     }
 
     #yesBtn {
-      left: 40%;
-      top: 500px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 100px;
       background: linear-gradient(45deg, #4cd137, #44bd32);
       color: white;
       box-shadow: 0 5px 20px rgba(76, 209, 55, 0.4);
-    }
-
-    #yesBtn:hover {
-      background: linear-gradient(45deg, #44bd32, #3caa2c);
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 12px 30px rgba(76, 209, 55, 0.6);
-    }
-
-    #yesBtn:active {
-      transform: translateY(2px);
-      box-shadow: 0 3px 15px rgba(76, 209, 55, 0.4);
     }
 
     #noBtn {
@@ -208,17 +204,22 @@
       box-shadow: 0 5px 20px rgba(232, 67, 147, 0.4);
     }
 
-    #noBtn:hover {
-      background: linear-gradient(45deg, #d63031, #e84393);
+    #yesBtn:hover, #noBtn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #yesBtn:active, #noBtn:active {
+      transform: translateY(2px);
     }
 
     .distance-indicator {
       position: absolute;
-      top: 30px;
-      right: 30px;
+      top: 20px;
+      right: 20px;
       background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(5px);
-      padding: 12px 20px;
+      padding: 10px 15px;
       border-radius: 50px;
       color: white;
       font-weight: 600;
@@ -227,6 +228,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      font-size: clamp(0.8rem, 2vw, 1rem);
     }
 
     .distance-indicator span {
@@ -254,7 +256,7 @@
     .footer {
       margin-top: 30px;
       color: rgba(255, 255, 255, 0.8);
-      font-size: 1.1rem;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
       text-align: center;
       font-weight: bold;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -268,17 +270,16 @@
     }
 
     @media (max-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
-      }
-      
       #container {
         height: 500px;
       }
       
       button {
-        padding: 15px 35px;
-        font-size: 1.2rem;
+        padding: 12px 25px;
+      }
+      
+      #yesBtn {
+        bottom: 80px;
       }
     }
   </style>
@@ -322,10 +323,10 @@
     const bubblesContainer = document.getElementById("bubbles");
 
     // Initialize button position
-    let noBtnX = 500;
-    let noBtnY = 250;
-    noBtn.style.left = noBtnX + "px";
-    noBtn.style.top = noBtnY + "px";
+    let noBtnX = container.clientWidth / 2 - noBtn.offsetWidth / 2;
+    let noBtnY = container.clientHeight / 2 - noBtn.offsetHeight / 2;
+    noBtn.style.left = `${noBtnX}px`;
+    noBtn.style.top = `${noBtnY}px`;
 
     // Rickroll on Yes
     yesBtn.addEventListener("click", () => {
@@ -337,12 +338,12 @@
 
     // Create floating bubbles for background
     function createBubbles() {
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 30; i++) {
         const bubble = document.createElement("div");
         bubble.classList.add("bubble");
         
-        // Random size between 10px and 100px
-        const size = Math.random() * 90 + 10;
+        // Random size between 10px and 60px
+        const size = Math.random() * 50 + 10;
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
         
@@ -394,8 +395,8 @@
     // Create background floating hearts
     function createBackgroundHearts() {
       setInterval(() => {
-        createHearts(3);
-      }, 1500);
+        createHearts(2);
+      }, 2000);
     }
 
     // Initialize animations
@@ -427,7 +428,7 @@
         proximityCircle.classList.remove('active');
       }
 
-      // Exact movement logic from your code
+      // Button movement logic
       if (distance < 150) {
         // Direction away from cursor
         let dx = btnCenterX - mouseX;
@@ -437,7 +438,7 @@
         dx = dx / length;
         dy = dy / length;
 
-        // Move distance - exactly 120px as in your original code
+        // Move distance
         let moveAmount = 120;
         noBtnX += dx * moveAmount + (Math.random() - 0.5) * 50;
         noBtnY += dy * moveAmount + (Math.random() - 0.5) * 50;
@@ -458,6 +459,14 @@
           createHearts(1, noBtn);
         }
       }
+    });
+
+    // Center the "No" button on window resize
+    window.addEventListener('resize', () => {
+      noBtnX = container.clientWidth / 2 - noBtn.offsetWidth / 2;
+      noBtnY = container.clientHeight / 2 - noBtn.offsetHeight / 2;
+      noBtn.style.left = `${noBtnX}px`;
+      noBtn.style.top = `${noBtnY}px`;
     });
   </script>
 </body>
