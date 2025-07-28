@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pink Love Confession</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Moving background */
+    .moving-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #ffafbd, #ffc3a0, #ffd3b6, #ff9a9e);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      z-index: -1;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating bubbles */
+    .bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      animation: float linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    #wrapper {
+      text-align: center;
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+      padding: 20px;
+    }
+
+    .header {
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: #fff;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to right, #ffffff, #f8f9fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .subtitle {
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    #container {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(8px);
+      border-radius: 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    /* Floating hearts */
+    .floating-hearts {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .floating-heart {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23e84393"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
+      background-size: contain;
+      opacity: 0;
+      animation: floatHeart 8s ease-in-out infinite;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100px) translateX(0) rotate(0deg) scale(0.6);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-600px) translateX(50px) rotate(20deg) scale(0.2);
+        opacity: 0;
+      }
+    }
+
+    button {
+      padding: 18px 45px;
+      font-size: 1.4rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      position: absolute;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      z-index: 2;
+      outline: none;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(0);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #yesBtn {
+      left: 40%;
+      top: 500px;
+      background: linear-gradient(45deg, #4cd137, #44bd32);
+      color: white;
+      box-shadow: 0 5px 20px rgba(76, 209, 55, 0.4);
+    }
+
+    #yesBtn:hover {
+      background: linear-gradient(45deg, #44bd32, #3caa2c);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(76, 209, 55, 0.6);
+    }
+
+    #yesBtn:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 15px rgba(76, 209, 55, 0.4);
+    }
+
+    #noBtn {
+      background: linear-gradient(45deg, #e84393, #fd79a8);
+      color: white;
+      box-shadow: 0 5px 20px rgba(232, 67, 147, 0.4);
+    }
+
+    #noBtn:hover {
+      background: linear-gradient(45deg, #d63031, #e84393);
+    }
+
+    .distance-indicator {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(5px);
+      padding: 12px 20px;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .distance-indicator span {
+      font-weight: 700;
+      color: #ffeb3b;
+      text-shadow: 0 0 8px rgba(255, 235, 59, 0.6);
+    }
+
+    .proximity-circle {
+      position: absolute;
+      pointer-events: none;
+      border: 2px dashed rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 1;
+    }
+
+    .proximity-circle.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+      text-align: center;
+      font-weight: bold;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      animation: colorChange 3s infinite alternate;
+    }
+
+    @keyframes colorChange {
+      0% { color: #ffffff; }
+      50% { color: #ffeb3b; }
+      100% { color: #ff9ff3; }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      #container {
+        height: 500px;
+      }
+      
+      button {
+        padding: 15px 35px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Moving background elements -->
+  <div class="moving-bg"></div>
+  <div class="bubbles" id="bubbles"></div>
+
+  <div id="wrapper">
+    <div class="header">
+      <h1>Do you love me?</h1>
+      <p class="subtitle">Please be Honest</p>
+    </div>
+    
+    <div id="container">
+      <div class="floating-hearts" id="floatingHearts"></div>
+      <div class="proximity-circle" id="proximityCircle"></div>
+      <div class="distance-indicator">
+        <i class="fas fa-ruler"></i>
+        Distance: <span id="distanceValue">0</span>px
+      </div>
+      <button id="yesBtn">
+        <i class="fas fa-heart"></i> Yes
+      </button>
+      <button id="noBtn">
+        <i class="fas fa-times"></i> No
+      </button>
+    </div>
+    
+    <p class="footer">HURRAY!!!!!!</p>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const container = document.getElementById("container");
+    const proximityCircle = document.getElementById("proximityCircle");
+    const distanceValue = document.getElementById("distanceValue");
+    const floatingHearts = document.getElementById("floatingHearts");
+    const bubblesContainer = document.getElementById("bubbles");
+
+    // Initialize button position
+    let noBtnX = 500;
+    let noBtnY = 250;
+    noBtn.style.left = noBtnX + "px";
+    noBtn.style.top = noBtnY + "px";
+
+    // Rickroll on Yes
+    yesBtn.addEventListener("click", () => {
+      createHearts(30, yesBtn);
+      setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+      }, 800);
+    });
+
+    // Create floating bubbles for background
+    function createBubbles() {
+      for (let i = 0; i < 50; i++) {
+        const bubble = document.createElement("div");
+        bubble.classList.add("bubble");
+        
+        // Random size between 10px and 100px
+        const size = Math.random() * 90 + 10;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        
+        // Random position
+        bubble.style.left = `${Math.random() * 100}%`;
+        
+        // Random animation duration between 10s and 20s
+        bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        // Random delay
+        bubble.style.animationDelay = `${Math.random() * 5}s`;
+        
+        bubblesContainer.appendChild(bubble);
+      }
+    }
+
+    // Create floating hearts
+    function createHearts(count, element = null) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        
+        // Position hearts at element or random position
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          heart.style.left = (rect.left + rect.width/2 - 15) + "px";
+          heart.style.top = (rect.top + rect.height/2 - 15) + "px";
+        } else {
+          heart.style.left = Math.random() * 100 + "%";
+          heart.style.bottom = "0";
+        }
+        
+        // Randomize animation
+        heart.style.animationDelay = Math.random() * 2 + "s";
+        heart.style.animationDuration = (Math.random() * 4 + 6) + "s";
+        heart.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+        
+        floatingHearts.appendChild(heart);
+        
+        // Remove heart after animation
+        setTimeout(() => {
+          if (heart.parentNode) {
+            heart.remove();
+          }
+        }, 10000);
+      }
+    }
+
+    // Create background floating hearts
+    function createBackgroundHearts() {
+      setInterval(() => {
+        createHearts(3);
+      }, 1500);
+    }
+
+    // Initialize animations
+    createBubbles();
+    createBackgroundHearts();
+
+    container.addEventListener("mousemove", (e) => {
+      const containerRect = container.getBoundingClientRect();
+      const mouseX = e.clientX - containerRect.left;
+      const mouseY = e.clientY - containerRect.top;
+
+      const btnCenterX = noBtn.offsetLeft + noBtn.offsetWidth / 2;
+      const btnCenterY = noBtn.offsetTop + noBtn.offsetHeight / 2;
+
+      const distance = Math.hypot(mouseX - btnCenterX, mouseY - btnCenterY);
+      
+      // Update distance display
+      distanceValue.textContent = Math.round(distance);
+      
+      // Update proximity circle
+      proximityCircle.style.left = (btnCenterX - 150) + "px";
+      proximityCircle.style.top = (btnCenterY - 150) + "px";
+      proximityCircle.style.width = "300px";
+      proximityCircle.style.height = "300px";
+      
+      if (distance < 150) {
+        proximityCircle.classList.add('active');
+      } else {
+        proximityCircle.classList.remove('active');
+      }
+
+      // Exact movement logic from your code
+      if (distance < 150) {
+        // Direction away from cursor
+        let dx = btnCenterX - mouseX;
+        let dy = btnCenterY - mouseY;
+
+        const length = Math.max(Math.hypot(dx, dy), 1);
+        dx = dx / length;
+        dy = dy / length;
+
+        // Move distance - exactly 120px as in your original code
+        let moveAmount = 120;
+        noBtnX += dx * moveAmount + (Math.random() - 0.5) * 50;
+        noBtnY += dy * moveAmount + (Math.random() - 0.5) * 50;
+
+        // Edge margin to keep button from sticking to walls
+        const margin = 20;
+        const maxX = container.clientWidth - noBtn.offsetWidth - margin;
+        const maxY = container.clientHeight - noBtn.offsetHeight - margin;
+
+        noBtnX = Math.max(margin, Math.min(noBtnX, maxX));
+        noBtnY = Math.max(margin, Math.min(noBtnY, maxY));
+
+        noBtn.style.left = `${noBtnX}px`;
+        noBtn.style.top = `${noBtnY}px`;
+        
+        // Create hearts when button moves
+        if (Math.random() > 0.7) {
+          createHearts(1, noBtn);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
